@@ -25,11 +25,29 @@ class Service
                     completion(.failure(.network(string: "An error occured during request :" + error.localizedDescription)))
                     return
                 }
-                //case the data was retrieved from communication
-                if let data = data
+                if let response = urlResponse as? HTTPURLResponse
                 {
-                    //call the completion with the data
-                    completion(.success(data))
+                    if (response.statusCode == 200)
+                    {
+                        //case the data was retrieved from communication
+                        if let data = data
+                        {
+                            //call the completion with the data
+                            completion(.success(data))
+                        }
+                    }
+                    else
+                    {
+                        //call completion with the error
+                        completion(.failure(.network(string: "An error occured on server response")))
+                        return
+                    }
+                }
+                else
+                {
+                    //call completion with the error
+                    completion(.failure(.network(string: "An error occured on server respons")))
+                    return
                 }
             }
             

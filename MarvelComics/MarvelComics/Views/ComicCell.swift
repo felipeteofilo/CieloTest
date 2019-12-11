@@ -16,7 +16,7 @@ class ComicCell: UITableViewCell
         {
             lblTitle.text = comicViewModel.comicName
             lblDescription.text = comicViewModel.comicDescription
-            imgThumbnail.downloaded(from: comicViewModel.comicThumbnailUrl)
+            imgThumbnail.loadImage(fromURL: comicViewModel.comicThumbnailUrl)
         }
     }
 

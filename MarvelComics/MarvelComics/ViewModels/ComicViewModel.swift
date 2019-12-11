@@ -19,6 +19,10 @@ struct ComicViewModel
     {
         comicName = comic.title ?? ""
         comicDescription = comic.description ?? ""
+        
+        //init the url of image
         comicThumbnailUrl = comic.thumbnail?.path ?? ""
+        comicThumbnailUrl.append(".")
+        comicThumbnailUrl.append(comic.thumbnail?.marvelExtension ?? "")
     }
 }

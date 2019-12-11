@@ -18,22 +18,39 @@ class ComicTableViewController: UITableViewController
     {
         super.viewDidLoad()
         
+        //set the action of refresh
+        refreshControl?.addTarget(self, action: #selector(downloadComics), for:.valueChanged)
+        
+        //start the download of comics
+        downloadComics()
+    }
+    
+    //MARK: - Communication
+    @objc func downloadComics()
+    {
+        //init the refresh
+        refreshControl?.beginRefreshing()
+        
         //fetch all comics
         serviceComics.fetchComics { comics, error in
             
+            //stop refresh
+            self.refreshControl?.endRefreshing()
+            
             //case happened some error
-            guard error != nil else
+            if( error != nil)
             {
                 //shows the error
                 self.showErrorMessage(error: error!)
-                return
             }
-            
-            //map the viewModels
-            self.comicViewModels = comics?.map({return ComicViewModel(comic: $0)}) ?? []
-            
-            //reload the data from tableview
-            self.tableView.reloadData()
+            else
+            {
+                //map the viewModels
+                self.comicViewModels = comics?.map({return ComicViewModel(comic: $0)}) ?? []
+                
+                //reload the data from tableview
+                self.tableView.reloadData()
+            }
         }
     }
     
@@ -63,9 +80,15 @@ class ComicTableViewController: UITableViewController
         return cell
     }
     
+//    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath)
+//    {
+//        <#code#>
+//    }
+    
+    //MARK: - Mesages
     func showErrorMessage(error: Error)
     {
-        let alertError = UIAlertController.init(title: "Warning", message: error.localizedDescription, preferredStyle: .alert)
+        let alertError = UIAlertController.init(title: "An error occured", message: "Oops, something went wrong! Please try again later...", preferredStyle: .alert)
         
         let actionOk = UIAlertAction.init(title: "OK", style: .default, handler: nil)
         
@@ -73,7 +96,7 @@ class ComicTableViewController: UITableViewController
         alertError.addAction(actionOk)
         
         //show the alert
-        show(alertError, sender: self)
+        present(alertError, animated: true, completion: nil)
     }
 }
 

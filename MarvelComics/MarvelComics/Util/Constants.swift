@@ -12,4 +12,5 @@ import Foundation
 let MARVEL_BASE_URL = "https://gateway.marvel.com"
 
 //API Key from Marvel api
-let API_KEY = "?apikey=21b4879f76ff271bf8a7267e36be5fec"
+let API_KEY = "?ts=1&apikey=21b4879f76ff271bf8a7267e36be5fec&hash=" + "1ea0e83c25dde24b73af13eb80a94033e73fd04f921b4879f76ff271bf8a7267e36be5fec".md5()
+

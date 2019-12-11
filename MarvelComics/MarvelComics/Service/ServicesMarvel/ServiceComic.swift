@@ -31,13 +31,13 @@ class ServiceComic
             case .success(let data) :
                 
                 //decode the json objet
-                if let comicDataContainer = try? JSONDecoder().decode(ComicDataContainer.self, from:data)
+                if let comicDataWrapper = try? JSONDecoder().decode(ComicDataWrapper.self, from:data)
                 {
                     //calls the completion on the main thread
                     DispatchQueue.main.async{
                         
                         //call the completion with the comics
-                        completion(comicDataContainer.results, nil)
+                        completion(comicDataWrapper.data?.results, nil)
                     }
                 }
                 else
