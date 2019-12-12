@@ -76,7 +76,7 @@ struct ComicViewModel
             }
         }
         
-        //init the creators
+        //init the characters
         comicCharacters = ""
         
         //look for all characters of this comic

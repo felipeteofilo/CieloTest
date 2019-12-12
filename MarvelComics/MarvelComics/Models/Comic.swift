@@ -26,7 +26,7 @@ struct Comic: Decodable
     var pageCount: Int?
     var textObjects: [TextObject]?
     var resourceURI: String?
-    var urls: [MarvelUrl]
+    var urls: [MarvelUrl]?
     var series: SeriesSummary?
     var variants: [ComicSummary]?
     var collections: [ComicSummary]?
