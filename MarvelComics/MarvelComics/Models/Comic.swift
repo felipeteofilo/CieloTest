@@ -16,7 +16,7 @@ struct Comic: Decodable
     var issueNumber: Double?
     var variantDescription: String?
     var description: String?
-    var modified: String?
+    var modified: Date?
     var isbn: String?
     var upc: String?
     var diamondCode: String?

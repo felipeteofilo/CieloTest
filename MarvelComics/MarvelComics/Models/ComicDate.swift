@@ -11,5 +11,5 @@ import Foundation
 struct ComicDate: Decodable
 {
     var type: String?
-    var date: String?
+    var date: Date?
 }

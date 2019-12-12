@@ -30,8 +30,12 @@ class ServiceComic
             {
             case .success(let data) :
                 
+                //init the decoder
+                let jsonDecode = JSONDecoder()
+                jsonDecode.dateDecodingStrategy = .iso8601
+                
                 //decode the json objet
-                if let comicDataWrapper = try? JSONDecoder().decode(ComicDataWrapper.self, from:data)
+                if let comicDataWrapper = try? jsonDecode.decode(ComicDataWrapper.self, from:data)
                 {
                     //calls the completion on the main thread
                     DispatchQueue.main.async{

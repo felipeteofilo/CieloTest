@@ -18,7 +18,7 @@ extension UIImageView
         let cache =  URLCache.shared
         let request = URLRequest(url: imageURL)
         
-        DispatchQueue.global(qos: .userInitiated).async {
+        DispatchQueue.global(qos: .userInitiated).async { 
             
             if let data = cache.cachedResponse(for: request)?.data, let image = UIImage(data: data)
             {
@@ -28,7 +28,7 @@ extension UIImageView
             }
             else
             {
-                URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) in
+                URLSession.shared.dataTask(with: request, completionHandler: { [unowned self] (data, response, error) in
                     if let data = data, let response = response, ((response as? HTTPURLResponse)?.statusCode ?? 500) < 300, let image = UIImage(data: data) {
                         let cachedData = CachedURLResponse(response: response, data: data)
                         cache.storeCachedResponse(cachedData, for: request)

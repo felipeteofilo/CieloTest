@@ -14,6 +14,8 @@ class ComicTableViewController: UITableViewController
     
     var comicViewModels = [ComicViewModel]()
     
+    var comicViewModelSelected: ComicViewModel?
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -32,7 +34,7 @@ class ComicTableViewController: UITableViewController
         refreshControl?.beginRefreshing()
         
         //fetch all comics
-        serviceComics.fetchComics { comics, error in
+        serviceComics.fetchComics { [unowned self] comics, error in
             
             //stop refresh
             self.refreshControl?.endRefreshing()
@@ -80,10 +82,33 @@ class ComicTableViewController: UITableViewController
         return cell
     }
     
-//    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath)
-//    {
-//        <#code#>
-//    }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    {
+        //remove the selection
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        //save the selected model
+        comicViewModelSelected = comicViewModels[indexPath.row]
+        
+        //go to the view of details
+        performSegue(withIdentifier: "showDetails", sender: self)
+    }
+    
+    //MARK: - Segue
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        //case was the segue to show details
+        if(segue.identifier == "showDetails")
+        {
+            //case the view to go is kid of ComicDetails
+            if let viewDetails = segue.destination as? ComicDetailsViewController
+            {
+                //pass the comic selected
+                viewDetails.comicViewModel = comicViewModelSelected
+            }
+        }
+    }
     
     //MARK: - Mesages
     func showErrorMessage(error: Error)
